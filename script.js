@@ -1,60 +1,51 @@
-// script.js - Handles interactivity for the Railway Ticket Booking UI
+const trains = [
+  { id: "123A", name: "Express Capital", time: "06:30 → 11:45", price: 1200, classes: ["AC 1", "AC 2", "Sleeper"] },
+  { id: "456B", name: "Coastal Mail", time: "09:15 → 16:00", price: 850, classes: ["AC 2", "Sleeper"] },
+  { id: "789C", name: "Night Liner", time: "22:10 → 04:55", price: 650, classes: ["AC 3", "Sleeper"] }
+];
 
-// Smooth scrolling for anchor links (e.g., CTA button to booking section)
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
+function searchTrains() {
+  let from = document.getElementById("from").value;
+  let to = document.getElementById("to").value;
+  let date = document.getElementById("date").value;
 
-// Handle booking form submission
-document.getElementById('bookingForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent default form submission
-    
-    // Collect form data
-    const name = document.getElementById('name').value;
-    const from = document.getElementById('from').value;
-    const to = document.getElementById('to').value;
-    const date = document.getElementById('date').value;
-    const travelClass = document.getElementById('class').value;
-    
-    // Basic validation
-    if (!name || !from || !to || !date || !travelClass) {
-        alert('Please fill in all fields.');
-        return;
-    }
-    
-    // Demo: Show success alert (in a real app, send to server)
-    alert(`Booking confirmed!\nName: ${name}\nFrom: ${from}\nTo: ${to}\nDate: ${date}\nClass: ${travelClass}`);
-    
-    // Reset form
-    this.reset();
-});
+  if (!from || !to || !date) {
+    alert("Please fill all fields.");
+    return;
+  }
 
-// Add subtle animation on page load for feature cards
-window.addEventListener('load', () => {
-    const featureCards = document.querySelectorAll('.feature-card');
-    featureCards.forEach((card, index) => {
-        setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, index * 200); // Staggered animation
-    });
-});
+  let results = document.getElementById("results");
+  results.innerHTML = "";
 
-// Initial styles for feature cards (for animation)
-document.addEventListener('DOMContentLoaded', () => {
-    const featureCards = document.querySelectorAll('.feature-card');
-    featureCards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    });
-});
+  trains.forEach(train => {
+    results.innerHTML += `
+      <div class="train-box">
+        <div>
+          <h3>${train.name} (${train.id})</h3>
+          <p>${train.time}</p>
+          <p>₹${train.price}</p>
+        </div>
+        <button class="btn" onclick="openBooking('${train.id}')">Book</button>
+      </div>
+    `;
+  });
+}
+
+function openBooking(trainId) {
+  const train = trains.find(t => t.id === trainId);
+
+  document.getElementById("trainTitle").innerText = `${train.name} (${train.id})`;
+  document.getElementById("classList").innerHTML = train.classes.map(c => `<option>${c}</option>`).join("");
+
+  document.getElementById("bookingModal").style.display = "block";
+
+  document.getElementById("bookingForm").onsubmit = function (e) {
+    e.preventDefault();
+    alert("✅ Booking Confirmed!\nTrain: " + train.name);
+    closeBooking();
+  };
+}
+
+function closeBooking() {
+  document.getElementById("bookingModal").style.display = "none";
+}
