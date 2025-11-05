@@ -1,78 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Railway Ticket Booking</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Railway ticket booking - Next-Gen Railway Booking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- HEADER -->
-  <header>
-    <div class="logo">RT</div>
-    <nav>
-      <a href="#">Trains</a>
-      <a href="#">Bookings</a>
-      <a href="#">Help</a>
-      <button class="btn">Sign In</button>
-    </nav>
-  </header>
-
-  <!-- SEARCH SECTION -->
-  <section class="search-section">
-    <div class="card">
-      <h2>Search Trains</h2>
-
-      <div class="input-group">
-        <label>From</label>
-        <input id="from" type="text" placeholder="Origin Station">
-      </div>
-
-      <div class="input-group">
-        <label>To</label>
-        <input id="to" type="text" placeholder="Destination Station">
-      </div>
-
-      <div class="input-group">
-        <label>Date</label>
-        <input id="date" type="date">
-      </div>
-
-      <div class="input-group">
-        <label>Passengers</label>
-        <input id="passengers" type="number" min="1" value="1">
-      </div>
-
-      <button onclick="searchTrains()" class="btn full">Search</button>
-    </div>
-  </section>
-
-  <section class="results-section">
-    <h2>Available Trains</h2>
-    <div id="results"></div>
-  </section>
-
-  <!-- BOOKING MODAL -->
-  <div class="modal" id="bookingModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeBooking()">&times;</span>
-      <h2 id="trainTitle"></h2>
-      <form id="bookingForm">
-        <label>Name</label>
-        <input required type="text" placeholder="Full Name">
-
-        <label>Mobile</label>
-        <input required type="text" placeholder="+91 XXXXX XXXXX">
-
-        <label>Select Class</label>
-        <select id="classList"></select>
-
-        <button type="submit" class="btn full">Confirm & Pay</button>
-      </form>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+    <header>
+        <div class="hero">
+            <h1><i class="fas fa-rocket"></i> Railway Ticket Booking</h1>
+            <p>AI-Powered Journeys. Book smarter, travel faster.</p>
+            <button id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</button>
+        </div>
+        <nav>
+            <a href="#" onclick="showSection('search')"><i class="fas fa-search"></i> Search</a>
+            <a href="#" onclick="showSection('dashboard')"><i class="fas fa-user"></i> Dashboard</a>
+            <a href="#" onclick="showSection('bookings')"><i class="fas fa-ticket-alt"></i> Bookings</a>
+        </nav>
+    </header>
+    <main>
+        <div id="search" class="section glass-card">
+            <h2>Find Your Train</h2>
+            <form id="searchForm">
+                <input type="text" id="from" placeholder="From Station" required>
+                <input type="text" id="to" placeholder="To Station" required>
+                <input type="date" id="date" required>
+                <select id="classFilter">
+                    <option value="">All Classes</option>
+                    <option value="Sleeper">Sleeper</option>
+                    <option value="AC 3-Tier">AC 3-Tier</option>
+                    <option value="AC 2-Tier">AC 2-Tier</option>
+                </select>
+                <button type="submit"><i class="fas fa-search"></i> Search</button>
+                <button type="button" onclick="voiceSearch()"><i class="fas fa-microphone"></i> Voice</button>
+            </form>
+            <div id="results" class="hidden">
+                <h3>Available Trains</h3>
+                <div id="trainList"></div>
+            </div>
+        </div>
+        <div id="booking" class="section glass-card hidden">
+            <h2>Book Your Seat</h2>
+            <div id="trainDetails" class="neumo-card"></div>
+            <div id="seatMap" class="seat-grid hidden">
+                <h3>Select Seats</h3>
+                <div id="seats"></div>
+            </div>
+            <form id="bookingForm" class="hidden">
+                <input type="number" id="passengers" placeholder="Passengers" min="1" required>
+                <button type="submit"><i class="fas fa-credit-card"></i> Pay & Book</button>
+            </form>
+        </div>
+        <div id="dashboard" class="section glass-card hidden">
+            <h2>Your Profile</h2>
+            <div class="neumo-card">
+                <p><strong>Name:</strong> Abhishek S</p>
+                <p><strong>Email:</strong>Abhi152814@gmail.com</p>
+                <p><strong>Recent Searches:</strong>bangalore to chennai</p>
+            </div>
+        </div>
+        <div id="bookings" class="section glass-card hidden">
+            <h2>Your Bookings</h2>
+            <div id="bookingList"></div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Railway Ticket booking. Powered by AI for seamless travel.</p>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>
